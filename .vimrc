@@ -1,24 +1,49 @@
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" File explorer
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'airblade/vim-gitgutter'
+
+" Fuzzy file finding
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
-Plug 'scrooloose/nerdcommenter'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+
+" Git integration and utilities
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+
+" TypeScript and JavaScript syntax
+Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
-Plug 'alvan/vim-closetag'
-Plug 'vim-airline/vim-airline'
-Plug 'tpope/vim-fugitive'
-Plug 'joshdick/onedark.vim'
+
+" General syntax highlight
 Plug 'metakirby5/codi.vim'
+
+" Commenting utility
+Plug 'scrooloose/nerdcommenter'
+
+" Tag auto-closing for HTML, XML, etc.
+Plug 'alvan/vim-closetag'
+
+" Surrounding characters shortcuts
+Plug 'tpope/vim-surround'
+
+" Vim UI enhancements
+Plug 'vim-airline/vim-airline'
+
+" Color scheme
+Plug 'joshdick/onedark.vim'
+
+" Integration with Tmux
+Plug 'christoomey/vim-tmux-navigator'
+
+" Intellisense engine
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 
 " Initialize plugin system
 call plug#end()
