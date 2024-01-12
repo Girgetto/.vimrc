@@ -46,56 +46,27 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Initialize plugin system
 call plug#end()
 
-set number
-set relativenumber
-syntax on
-colorscheme onedark
+" Vim Basic Settings
+set number                   " Show line numbers
+set relativenumber           " Show relative line numbers
+syntax on                    " Enable syntax highlighting
+colorscheme onedark          " Set colorscheme to onedark
+set encoding=utf-8           " Use UTF-8 encoding
 
-inoremap jk <ESC>
-nmap <C-n> :NERDTreeToggle<CR>
-vmap ++ <plug>NERDCommenterToggle
-nmap ++ <plug>NERDCommenterToggle
-nnoremap <C-p> :Files<CR>
+" Key Bindings
+inoremap jk <ESC>                  " Exit insert mode with 'jk'
+nmap <C-n> :NERDTreeToggle<CR>     " Toggle NERDTree with Ctrl+n
+vmap ++ <plug>NERDCommenterToggle  " Toggle commenting in visual mode with ++
+nmap ++ <plug>NERDCommenterToggle  " Toggle commenting in normal mode with ++
+nnoremap <C-p> :Files<CR>          " Call :Files with Ctrl+p
 
-let g:NERDTreeGitStatusWithFlags = 1
-let g:NERDTreeWinPos = "right"
-let g:NERDTreeIgnore = ['^node_modules$']
+" NERDTree Configuration
+let g:NERDTreeGitStatusWithFlags = 1  " Show git status flags in NERDTree
+let g:NERDTreeWinPos = "right"        " Set NERDTree window position to right
+let g:NERDTreeIgnore = ['^node_modules$']  " Ignore node_modules in NERDTree
 
-" vim-prettier
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
-
-" ctrlp
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-
-" vim-tmux-navigator
-set smarttab
-set cindent
-set tabstop=2
-set shiftwidth=2
-" always uses spaces instead of tab characters
-set expandtab
-set encoding=utf-8
-
-" sync open file with NERDTree
-" " Check if NERDTree is open or active
-function! IsNERDTreeOpen()        
-  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
-endfunction
-
-" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
-" file, and we're not in vimdiff
-function! SyncTree()
-  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
-    NERDTreeFind
-    wincmd p
-  endif
-endfunction
-
-" Highlight currently open buffer in NERDTree
-autocmd BufRead * call SyncTree()
-
-" coc config
-let g:coc_global_extensions = [
+" Coc (Conquer of Completion) Configuration
+let g:coc_global_extensions = [      " List of CoC extensions
   \ 'coc-snippets',
   \ 'coc-pairs',
   \ 'coc-tsserver',
@@ -103,75 +74,83 @@ let g:coc_global_extensions = [
   \ 'coc-prettier', 
   \ 'coc-json', 
   \ ]
-" from readme
-" if hidden is not set, TextEdit might fail.
-set hidden " Some servers have issues with backup files, see #649 set nobackup set nowritebackup " Better display for messages set cmdheight=2 " You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=300
+set hidden                          " Required for some CoC functionalities
+set nobackup                        " Disable backup files
+set nowritebackup                   " Disable write backup files
+set cmdheight=2                     " Set command line height for better display
+set updatetime=300                  " Faster completion trigger
+set shortmess+=c                    " Avoid showing extra messages during completion
+set signcolumn=yes                  " Always show the sign column
 
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
-
-" always show signcolumns
-set signcolumn=yes
-
-" Use tab for trigger completion with characters ahead and navigate
-" NOTE: There's always complete item selected by default, you may want to enable
-" no select by `"suggest.noselect": true` in your configuration file
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config
-inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+" Coc Key Mappings
+" Use Tab for various completions and navigations
+inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#next(1) : CheckBackspace() ? "\<Tab>" : coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-" Make <CR> to accept selected completion item or notify coc.nvim to format
-" <C-g>u breaks current undo, please make your own choice
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" Use Enter to accept completion and format
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Use <c-space> to trigger completion
+" Use Ctrl+Space to trigger completion
 if has('nvim')
   inoremap <silent><expr> <c-space> coc#refresh()
 else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Remap keys for gotos
+" Goto mappings
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
 nmap <F2> <Plug>(coc-rename)
 
-" Remap for format selected region
+" Format mappings
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
 
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-" Use `:Format` to format current buffer
-command! -nargs=0 Format :call CocAction('format')
+" Coc Commands
+command! -nargs=0 Prettier :CocCommand prettier.formatFile  " Format file with Prettier
+command! -nargs=0 Format :call CocAction('format')          " Format current buffer
+command! -nargs=? Fold :call CocAction('fold', <f-args>)    " Fold current buffer
+command! -nargs=0 OR :call CocAction('runCommand', 'editor.action.organizeImport')  " Organize imports
 
-" Use `:Fold` to fold current buffer
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-
-" use `:OR` for organize import of current buffer
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-
-let g:tmux_navigator_no_mappings = 1
-
+" Vim-Tmux-Navigator Configuration
+let g:tmux_navigator_no_mappings = 1  " Disable default tmux navigator mappings
+" Custom Tmux navigation mappings
 noremap <silent> {Left-Mapping} :<C-U>TmuxNavigateLeft<cr>
 noremap <silent> {Down-Mapping} :<C-U>TmuxNavigateDown<cr>
 noremap <silent> {Up-Mapping} :<C-U>TmuxNavigateUp<cr>
 noremap <silent> {Right-Mapping} :<C-U>TmuxNavigateRight<cr>
 noremap <silent> {Previous-Mapping} :<C-U>TmuxNavigatePrevious<cr>
+
+" Formatting and Indentation
+set smarttab
+set cindent
+set tabstop=2
+set shiftwidth=2
+set expandtab
+
+" Functions and Autocommands
+function! IsNERDTreeOpen() " Check if NERDTree is open
+  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
+endfunction
+
+function! SyncTree() " Sync NERDTree with current file
+  if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
+    NERDTreeFind
+    wincmd p
+  endif
+endfunction
+
+autocmd BufRead * call SyncTree()  " Call SyncTree on buffer read
+
+function! s:check_back_space() " Check for backspace
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" CtrlP Configuration
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']  " CtrlP command for Git
+
+" Autocommands for Coc Actions
+autocmd CursorHold * silent call CocActionAsync('highlight')  " Highlight symbol under cursor
