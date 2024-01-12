@@ -7,7 +7,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " Fuzzy file finding
-Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
@@ -44,7 +43,6 @@ Plug 'christoomey/vim-tmux-navigator'
 " Intellisense engine
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-
 " Initialize plugin system
 call plug#end()
 
@@ -57,6 +55,7 @@ inoremap jk <ESC>
 nmap <C-n> :NERDTreeToggle<CR>
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
+nnoremap <C-p> :Files<CR>
 
 let g:NERDTreeGitStatusWithFlags = 1
 let g:NERDTreeWinPos = "right"
@@ -75,6 +74,7 @@ set tabstop=2
 set shiftwidth=2
 " always uses spaces instead of tab characters
 set expandtab
+set encoding=utf-8
 
 " sync open file with NERDTree
 " " Check if NERDTree is open or active
