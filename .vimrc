@@ -54,11 +54,17 @@ colorscheme onedark          " Set colorscheme to onedark
 set encoding=utf-8           " Use UTF-8 encoding
 
 " Key Bindings
-inoremap jk <ESC>                  " Exit insert mode with 'jk'
-nmap <C-n> :NERDTreeToggle<CR>     " Toggle NERDTree with Ctrl+n
-vmap ++ <plug>NERDCommenterToggle  " Toggle commenting in visual mode with ++
-nmap ++ <plug>NERDCommenterToggle  " Toggle commenting in normal mode with ++
-nnoremap <C-p> :Files<CR>          " Call :Files with Ctrl+p
+" Exit insert mode with 'jk'
+inoremap jk <ESC>
+" Toggle NERDTree with Ctrl+n
+nmap <C-n> :NERDTreeToggle<CR>
+" Toggle commenting in visual mode with ++
+vmap ++ <plug>NERDCommenterToggle 
+" Toggle commenting in normal mode with ++
+nmap ++ <plug>NERDCommenterToggle
+" Call :GFiles with Ctrl+p
+nnoremap <C-p> :GFiles<CR> 
+nnoremap <leader>pf :Files<CR> 
 
 " NERDTree Configuration
 let g:NERDTreeGitStatusWithFlags = 1  " Show git status flags in NERDTree
@@ -66,7 +72,9 @@ let g:NERDTreeWinPos = "right"        " Set NERDTree window position to right
 let g:NERDTreeIgnore = ['^node_modules$']  " Ignore node_modules in NERDTree
 
 " Coc (Conquer of Completion) Configuration
-let g:coc_global_extensions = [      " List of CoC extensions
+" List of CoC extensions
+
+let g:coc_global_extensions = [      
   \ 'coc-snippets',
   \ 'coc-pairs',
   \ 'coc-tsserver',
@@ -129,6 +137,9 @@ set cindent
 set tabstop=2
 set shiftwidth=2
 set expandtab
+set scrolloff=8
+
+let mapleader = " "
 
 " Functions and Autocommands
 function! IsNERDTreeOpen() " Check if NERDTree is open
@@ -153,4 +164,9 @@ endfunction
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']  " CtrlP command for Git
 
 " Autocommands for Coc Actions
-autocmd CursorHold * silent call CocActionAsync('highlight')  " Highlight symbol under cursor
+autocmd CursorHold * silent call CocActionAsync('highlight')  " Highlight symbol under cursors
+
+nnoremap <leader><CR> :so ~/.nvimrc<CR> " Reload .nvimrc with leader + Enter
+inoremap <C-c> <ESC>  " use ctrl + c to escape insert mode
+nnoremap <C-j> :cnext<CR>  " use ctrl + j to go next in quickfix
+nnoremap <C-k> :cprev<CR>  " use ctrl + k to go previous in quickfix
