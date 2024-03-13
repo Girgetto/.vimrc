@@ -170,3 +170,6 @@ nnoremap <leader><CR> :so ~/.nvimrc<CR> " Reload .nvimrc with leader + Enter
 inoremap <C-c> <ESC>  " use ctrl + c to escape insert mode
 nnoremap <C-j> :cnext<CR>  " use ctrl + j to go next in quickfix
 nnoremap <C-k> :cprev<CR>  " use ctrl + k to go previous in quickfix
+
+" Set guidcursor to avoid change cursor shape
+set guicursor=
