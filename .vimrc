@@ -92,7 +92,6 @@ set signcolumn=yes                  " Always show the sign column
 
 " Coc Key Mappings
 " Use Tab for various completions and navigations
-inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#next(1) : CheckBackspace() ? "\<Tab>" : coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Use Enter to accept completion and format
